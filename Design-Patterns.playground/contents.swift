@@ -274,11 +274,11 @@ struct NovellasCollection<T> {
 }
 
 extension NovellasCollection: SequenceType {
-    typealias Generator = GeneratorOf<T>
+    typealias Generator = AnyGenerator<T>
     
-    func generate() -> GeneratorOf<T> {
+    func generate() -> AnyGenerator<T> {
         var i = 0
-        return GeneratorOf { return i >= self.novellas.count ? nil : self.novellas[i++] }
+        return anyGenerator { return i >= self.novellas.count ? nil : self.novellas[i++] }
     }
 }
 /*:
@@ -287,7 +287,7 @@ extension NovellasCollection: SequenceType {
 let greatNovellas = NovellasCollection(novellas:["Mist"])
 
 for novella in greatNovellas {
-    println("I've read: \(novella)")
+    print("I've read: \(novella)")
 }
 /*:
 💐 Mediator
@@ -336,7 +336,7 @@ class MessageMediator: Mediator {
 
 class ConcreteColleague: Colleague {
     override func receive(message: String) {
-        println("Colleague received: \(message)")
+        print("Colleague received: \(message)")
     }
 }
 
@@ -418,7 +418,7 @@ gameState.chapter = "Office Complex"
 gameState.weapon = "Crossbow"
 CheckPoint.saveState(gameState.toMemento())
 
-gameState.restoreFromMemento(CheckPoint.restorePreviousState(keyName: "gameState2"))
+gameState.restoreFromMemento(CheckPoint.restorePreviousState("gameState2"))
 
 /*:
 👓 Observer
@@ -451,13 +451,13 @@ class TestChambers {
 class Observer : PropertyObserver {
     func willChangePropertyName(propertyName: String, newPropertyValue: AnyObject?) {
         if newPropertyValue as? Int == 1 {
-            println("Okay. Look. We both said a lot of things that you're going to regret.")
+            print("Okay. Look. We both said a lot of things that you're going to regret.")
         }
     }
 
     func didChangePropertyName(propertyName: String, oldPropertyValue: AnyObject?) {
         if oldPropertyValue as? Int == 0 {
-            println("Sorry about the mess. I've really let the place go since you killed me.")
+            print("Sorry about the mess. I've really let the place go since you killed me.")
         }
     }
 }
@@ -487,7 +487,7 @@ class Context {
         get { return state.userId(self) }
     }
 
-	func changeStateToAuthorized(#userId: String) {
+	func changeStateToAuthorized(userId userId: String) {
 		state = AuthorizedState(userId: userId)
 	}
 
@@ -952,13 +952,13 @@ class RemoteControl: Switch {
 
 class TV: Appliance {
     func run() {
-        println("tv turned on");
+        print("tv turned on");
     }
 }
 
 class VacuumCleaner: Appliance {
     func run() {
-        println("vacuum cleaner turned on")
+        print("vacuum cleaner turned on")
     }
 }
 /*:
@@ -987,13 +987,13 @@ Leafs
 */ 
 class Square : Shape {
     func draw(fillColor: String) {
-        print("Drawing a Square with color \(fillColor)")
+        print("Drawing a Square with color \(fillColor)", terminator: "")
     }
 }
 
 class Circle : Shape {
     func draw(fillColor: String) {
-        print("Drawing a circle with color \(fillColor)")
+        print("Drawing a circle with color \(fillColor)", terminator: "")
     }
 }
 
@@ -1090,11 +1090,11 @@ class WhipCoffee: CoffeeDecorator {
 ### Usage:
 */
 var someCoffee: Coffee = SimpleCoffee()
-println("Cost : \(someCoffee.getCost()); Ingredients: \(someCoffee.getIngredients())")
+print("Cost : \(someCoffee.getCost()); Ingredients: \(someCoffee.getIngredients())")
 someCoffee = Milk(decoratedCoffee: someCoffee)
-println("Cost : \(someCoffee.getCost()); Ingredients: \(someCoffee.getIngredients())")
+print("Cost : \(someCoffee.getCost()); Ingredients: \(someCoffee.getIngredients())")
 someCoffee = WhipCoffee(decoratedCoffee: someCoffee)
-println("Cost : \(someCoffee.getCost()); Ingredients: \(someCoffee.getIngredients())")
+print("Cost : \(someCoffee.getCost()); Ingredients: \(someCoffee.getIngredients())")
 /*:
 🎁 Façade
 ---------
